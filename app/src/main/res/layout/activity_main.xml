@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <org.osmdroid.views.MapView
+    <com.carloudy.osmdroidpractice.MapViewMirrored
         android:id="@+id/mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tilesource="Mapnik" />
 
 </RelativeLayout>

@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private final int LOCATION_PERMISSIONS_REQUEST = 1;
     private final int STORATGE_PERMISSIONS_REQUEST = 2;
 
-    MapView mapView;
+    MapViewMirrored mapView;
 
 
     @Override
@@ -52,32 +54,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(){
         init_ui();
-
         init_permissions();
     }
 
     private void init_ui(){
         mapView = findViewById(R.id.mapview);
-
-        init_map();
     }
 
     private void init_map(){
-        mapView.setTileSource(TileSourceFactory.MAPNIK);
+//        mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
-        
+
+        IMapController mapController = mapView.getController();
+        mapController.setZoom(19.);
+        GeoPoint startPoint = new GeoPoint(41.891789, -87.622865);
+        mapController.setCenter(startPoint);
     }
 
     private void init_permissions(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(checkAndRequestLocationPermissions() && checkAndRequestStoragePermissions()){
                 Log.d(TAG, "Permissions granted");
-            }else{
-                //asdf
+                init_map();
             }
         }else{
-            //asdfa
+            init_map();
         }
     }
 
